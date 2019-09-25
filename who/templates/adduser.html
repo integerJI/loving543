@@ -1,0 +1,55 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+{% block content %}
+<div class="container">
+  <div class="d-flex justify-content-center">
+    <div class="card" style="width: 35rem;">
+      <div class="card-body">
+
+          <form method="POST" action="" class="sign-up-form" class="sign-in-form" enctype="multipart/form-data">
+              {%csrf_token%}  
+              <br>
+              <div class="d-flex justify-content-center">
+              <br>
+              <h2>Loving U 회원가입</h2>
+              </div>
+              <div class="card-body text-success">
+              {% if user.is_authenticated %}
+              <script type="text/javascript">
+                alert('잘못된 접근입니다. \n회원가입을 위해서는 로그아웃이 필요합니다.')
+                window.location.href = '/';
+              </script>
+              {% else %}
+              </div>
+              <div class="form-group">
+                  아이디 <small class="text-muted">15자 이하 문자, 숫자 그리고 @/./+/-/_만 가능합니다.</small>
+                  <input type="text" name="user-username" class="form-control" placeholder="아이디" maxlength="15" autofocus required id="id_user-username">
+                </div>
+                <div class="form-group">
+                    <label for="exampleInputPassword1">비밀번호 <small class="text-muted">비밀번호는 최소 8자 이상이어야 합니다.</small></label>
+                    <input type="password" class="form-control" id="exampleInputPassword1" placeholder="비밀번호" name="user-password1" required id="id_user-password1">
+                  </div>
+                  <div class="form-group">
+                      <label for="exampleInputPassword1">비밀번호 확인 <small class="text-muted">비밀번호는 전부 숫자로 할 수 없습니다.</small></label>
+                      <input type="password" class="form-control" id="exampleInputPassword1" placeholder="비밀번호 확인" name="user-password2" required id="id_user-password2">
+                    </div>
+                <div class="form-group">
+                    <label for="exampleFormControlFile1">프로필 사진 <small class="text-muted">권장 크기 : 250 * 250</small></label>
+                    <input type="file" class="form-control-file" id="id_profile-profile_image" name="profile-profile_image" accept="image/*" >
+                  </div>
+                <div class="form-group">
+                    <label for="exampleFormControlTextarea1">인사말</label>
+                    <textarea class="form-control" id="id_profile-intro" rows="3" name="profile-intro"></textarea>
+                  </div>
+                <button type="submit" class="save btn btn-success">회원가입</button>
+                <a href="{% url 'index' %}">
+                  <button type="button" class="btn btn-danger">취소</button>
+                </a>
+            </form>
+
+      </div>
+    </div>
+  </div>
+</div>
+{% endif %}
+{% endblock %}

@@ -1,0 +1,148 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+{% load memo_extras %}
+{% block content %}
+
+<head>
+  <style>
+    .hidden {
+      display: none
+    }
+  </style>
+</head>
+
+<body>
+
+
+  <div class="container">
+        <div class="d-flex justify-content-center">
+          <div class="card mb-4 shadow-sm" style="width: 35rem;">
+
+            <div class="card-body">
+            <div class="d-flex justify-content-between">
+            {% if user.is_authenticated %}
+            <a class="card-text" href="{% url 'userpage' memo.name  %}"><span class="writer_name">{{ memo.name }}</span></a>
+            {% else %}
+            <a class="card-text">{{ memo.name }}</a>
+            {% endif %}
+            <span class="hidden" id="control_id">
+              <a href="{% url 'modify_memo' memokey=memo.pk %}"><img src="/static/edit.png" class="edit" alt="수정" style="width: 1.2rem; height:1.2rem;"></a>&nbsp;&nbsp;
+              <a href="{% url 'delete_memo' memokey=memo.pk %}" onclick="return confirm('정말 삭제하시겠습니까?')">
+              <img src="/static/delete.png" class="delete" alt="삭제" style="width: 1.2rem; height:1.2rem;"></a>
+            </span>
+            </div>
+            </div>
+
+            {% if memo.images %}
+            <img class="img-fluid" width="100%" style="height: 50%" src="{{ memo.images.url }}" preserveAspectRatio="xMidYMid slice" focusable="false" role="img" aria-label="Placeholder: Thumbnail">
+            {% else %}
+            <img class="img-fluid" width="100%" style="height: 50%" src="/static/default.jpg" preserveAspectRatio="xMidYMid slice" focusable="false" role="img" aria-label="Placeholder: Thumbnail">
+            {% endif %}
+            <br>
+
+            <div class="d-flex justify-content-center">
+            <span class="like_button">
+              {% if memo.likes.all %}
+              <a class="like" name="{{ memo.id }}"><img id="like-img{{ memo.id }}" src="/static/like_after.png" alt="클릭시 좋아요 취소" style="width: 2rem; height:2rem;"></a>
+              {% else %}
+              <a class="like" name="{{ memo.id }}"><img id="like-img{{ memo.id }}" src="/static/like_before.png" alt="클릭시 좋아요" style="width: 2rem; height:2rem;"></a>
+              {% endif %}
+              <small class="text-muted"><span class="like_count" id="count{{ memo.id }}">{{ memo.total_likes }} like</span></small>
+            </span>
+            </div>
+            <div class="card-body">
+              <a class="card-text">{{ memo | add_link | safe | linebreaksbr }}</a>
+              <div class="d-flex justify-content-between align-items-center">
+                <div class="btn-group">
+                <a class="card-text"><small class="text-muted">{{memo.update_date}}</small></a>
+                </div>
+              </div>
+            </div>
+            <hr>
+            
+            <div class="card-body">
+            <div class="d-flex justify-content-center">
+            {% if user.is_authenticated %}
+            <form class="form-inline my-2 my-lg-0" action="{% url 'comment_write' memokey=memo.pk %}" method="POST">
+                {% csrf_token %}
+                <input class="form-control mr-sm-2" type="text" placeholder="댓글달아주세요" name="content" >
+                <button class="btn btn-outline-success my-2 my-sm-0" type="submit" value="Write">Write</button>
+            </form>
+            {% else %}
+            로그인 해주시길 바랍니다.
+            {% endif %}
+            </div>
+            </div>
+
+            <div class="card-body">
+                {% for comment in memo.comments.all %}
+                {% if user.is_authenticated %}
+                <a class="card-text" href="{% url 'userpage' comment.comment_writer %}"><span class="comment_writer_name">{{comment.comment_writer}}</span></a>
+                {% else %}
+                <span class="comment_writer_name">{{comment.comment_writer}}</span>
+                {% endif %}
+                <span class="control hidden" id="control_id1{{ forloop.counter0 }}">
+                  <a href="{% url 'comment_delete' memo.pk comment.pk %}" onclick="return confirm('정말 삭제하시겠습니까?')"><img src="/static/delete.png" class="delete" alt="삭제" style="width: 1.2rem; height:1.2rem;"></a>
+                </span>
+                <br>
+                <small class="text-muted">{{comment.comment_date}}</small><br>
+                <a class="card-text">{{comment.comment_contents}}</a><br>
+                {% empty %}
+                <p class="card-text">댓글이 없습니다.</p>
+                {% endfor %}
+            </div>
+
+          </div>
+        </div>
+    </div>
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+  <script type="text/javascript">
+
+    $("#user_name").text() 
+    $(".writer_name").text() 
+
+    if ($("#user_name").text() == $(".writer_name").text()) {
+      $("#control_id").removeClass("hidden")
+    }
+
+
+    $('.like').click(function () {
+      var pk = $(this).attr('name') 
+      $.ajax({
+        type: "POST",
+        url: "{% url 'like' %}", 
+        data: { 'pk': pk, 'csrfmiddlewaretoken': '{{ csrf_token }}' }, 
+        dataType: "json", 
+
+        success: function (response) { 
+          if (response.likes_count == 1) {
+            $('#count' + pk).html(response.likes_count + ' like ');
+            $('#like-img'+pk).attr('src','/static/like_after.png');
+          } else if (response.likes_count == 0) {
+            $('#count' + pk).html('0 like');
+            $('#like-img'+pk).attr('src','/static/like_before.png');
+          } else {
+            $('#count' + pk).html(response.likes_count + ' like');
+            $('#like-img'+pk).attr('src','/static/like_after.png');
+          }
+          alert(response.message);
+        },
+        error: function (request, status, error) {
+          alert('로그인이 필요합니다.')
+        }
+      });
+    })
+
+    
+    $(".comment_writer_name") 
+    $(".comment_writer_name")[0].innerHTML  
+
+    for (i = 0; i < $(".comment_writer_name").length; i++) {
+      if ($("#user_name").text() == $(".comment_writer_name")[i].innerHTML) {
+        $("#control_id1" + i).removeClass("hidden");
+      }
+    }
+  </script>
+</body>
+{% endblock %}

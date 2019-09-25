@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+{% block content %}
+  <div class="container">
+      <div class="d-flex justify-content-center">
+        <div class="card" style="width: 35rem;">
+          <div class="card-body">
+          <h5 class="card-title">{{id}}님의 Page</h5>
+          </div>
+          <div class="d-flex justify-content-center">
+            <img class="img-fluid" width="250" height="250" src="{% if profile_pic %} {{profile_pic}} {% else %} /static/default.jpg {% endif %}" preserveAspectRatio="xMidYMid slice" focusable="false" role="img" aria-label="Placeholder: Thumbnail">
+          </div>
+          <div class="card-body">
+            <h5 class="card-title">User NickName : {{ id }}</h5>
+            
+            {% if intro %}
+            <p class="card-text">User Intro : <br>{{ intro | linebreaksbr}}</p>
+            {% else %}
+            <p class="card-text">자기소개가 없습니다.<br></p>
+            {% endif %}
+
+            <a href="{% url 'index' %}" class="btn btn-primary">Home</a>
+          </div>
+        </div>
+      </div>
+    </div>
+{% endblock %}
