@@ -1,6 +1,7 @@
 {% extends 'base.html' %}
 {% load staticfiles %}
 {% load memo_extras %}
+{% load memo2_extras %}
 {% block content %}
 
 <head>
@@ -51,7 +52,7 @@
             </span>
             </div>
             <div class="card-body">
-              <a class="card-text">{{ memo | add_link | safe | linebreaksbr }}</a>
+                    <p class="card-text"> {{memo.text2}} <br>{{ memo|add_link|safe|linebreaksbr }} <br>{{ memo|add_link2|safe|linebreaksbr }} </p>
               <div class="d-flex justify-content-between align-items-center">
                 <div class="btn-group">
                 <a class="card-text"><small class="text-muted">{{memo.update_date}}</small></a>

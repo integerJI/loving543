@@ -13,5 +13,4 @@ urlpatterns = [
     url(r'^explore/tags/(?P<tag>\w+)/$', views.index, name='post_search'),
     url(r'^explore/tags2/(?P<tag2>\w+)/$', views.index, name='post_search'),
     path('search/', views.search, name="search"),
-    path('multisearch/', views.multisearch, name="multisearch"),
 ]

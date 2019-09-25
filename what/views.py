@@ -17,33 +17,43 @@ from django.db.models import Q
 
 def index(request, tag=None, tag2=None):
     sort = request.GET.get('sort','')
+    tag_all = Tag.objects.annotate(num_post=Count('memos')).order_by('-num_post')
+    tag_all2 = Tag2.objects.annotate(num_post=Count('memos')).order_by('-num_post')
+
     if sort == 'likes':
         memo = Memos.objects.prefetch_related('tag_set').select_related('name__profile').annotate(like_count=Count('likes')).filter(secret = False).order_by('-like_count', '-update_date')
-        return render(request, 'index.html', {'memo' : memo})
+        return render(request, 'index.html', {'memo' : memo,'tag_all': tag_all,'tag_all2': tag_all2})
     elif sort == 'mypost':
         user = request.user
         memo = Memos.objects.prefetch_related('tag_set').select_related('name__profile').filter(name = user, secret = False).order_by('-update_date')
-        return render(request, 'index.html', {'memo' : memo})
+        return render(request, 'index.html', {'memo' : memo,'tag_all': tag_all,'tag_all2': tag_all2})
     elif sort == 'mylike':
         user = request.user
         memo = Memos.objects.prefetch_related('tag_set').select_related('name__profile').filter(likes=user, secret = False).order_by('-update_date')
-        return render(request, 'index.html', {'memo' : memo})
+        return render(request, 'index.html', {'memo' : memo,'tag_all': tag_all,'tag_all2': tag_all2})
     elif sort == 'secret':
         user = request.user
         memo = Memos.objects.prefetch_related('tag_set').select_related('name__profile').filter(secret = True, name = user).order_by('-update_date')
-        return render(request, 'index.html', {'memo' : memo})
+        return render(request, 'index.html', {'memo' : memo,'tag_all': tag_all,'tag_all2': tag_all2})
     else:
+        p = request.GET.get('p', False) 
+        y = request.GET.get('y', False) 
 
         if tag:
             memo = Memos.objects.filter(tag_set__tag_name__iexact=tag).prefetch_related('tag_set').select_related('name__profile')
-            
+            if p:
+                memo = memo.filter(tag_set2__tag_name2__iexact=p).prefetch_related('tag_set2').select_related('name__profile')
+
         elif tag2:
             memo = Memos.objects.filter(tag_set2__tag_name2__iexact=tag2).prefetch_related('tag_set2').select_related('name__profile')
+            if y:
+                memo = memo.filter(tag_set__tag_name__iexact=y).prefetch_related('tag_set').select_related('name__profile')
+
 
         else:
             memo = Memos.objects.all().prefetch_related('tag_set','tag_set2').select_related('name__profile').order_by('-update_date')
 
-        return render(request, 'index.html', {'tag': tag,'tag2': tag2,'memo': memo})
+        return render(request, 'index.html', {'tag': tag,'tag2': tag2,'memo': memo,'tag_all': tag_all,'tag_all2': tag_all2, 'p':p, 'y':y})
 
 
 
@@ -161,26 +171,15 @@ def comment_delete(request, memo_pk, pk):
 
 def search(request):
     memo = Memos.objects.all()
-    q = request.GET.get('q', False) 
+    q = request.POST.get('q', False) 
 
     if q:
-        memo = memo.filter(Q(text__icontains=q) | Q(text3__icontains=q) | Q(text2__icontains=q))
+        memo = memo.filter(Q(text__icontains=q)|Q(text2__icontains=q)|Q(text3__icontains=q))
         return render(request, 'search.html', {'memo' : memo, 'q' : q})
 
-    else:
-        messages.info(request, '입력된 값이 없습니다.')
-        return redirect('index')
-
-def multisearch(request):
-    memo = Memos.objects.all()
-    p = request.GET.get('p', False) 
-
-    if p:
-        memo = memo.filter(Q(text__icontains=p) | Q(text3__icontains=p) | Q(text2__icontains=p))
-        return render(request, 'search.html', {'memo' : memo, 'p' : p})
 
     else:
         messages.info(request, '입력된 값이 없습니다.')
         return redirect('index')
+
         
-

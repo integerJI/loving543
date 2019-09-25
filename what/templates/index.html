@@ -27,10 +27,62 @@
               <option class="sort-secret" value="?sort=secret">Secret</option>
               {% endif %}
             </select>
-          </div><br>
-          {% if not mome %}
-          <h1 class="search-result-title">#{{tag}} 검색결과</h1>
-            {% endif %}
+          </div>
+
+            <p>인기 해시태그</p>
+          {% for tag in tag_all|slice:":5" %}
+          <button type="button" class="btn btn-outline-primary">
+        <a href="/what/explore/tags/{{tag.tag_name}}">#{{ tag.tag_name }}</a></button>
+        {% endfor %}<br><br>
+
+        {% if tag %}
+        <div class="search-header">
+          {% if not memo %}
+          <a class="alert-link">#{{tag}}</a>태그 검색 결과가 없습니다.
+            <div class="hot-tag-list">
+          {% else %}
+          <div class="alert alert-dark" role="alert">
+              <div class="d-flex justify-content-between">
+                {% if p %}
+                <div class"group>
+              <a class="alert-link">#{{tag}} #{{p}}</a> 검색 결과입니다.<span class="search-result-count"> 게시물 <span class="count"><a class="alert-link">{{ memo.count|intcomma }}</a>개 </span></span>
+            </div>
+              {% else%}
+              <div class"group>
+            <a class="alert-link">#{{tag}}</a> 검색 결과입니다.<span class="search-result-count"> 게시물 <span class="count"><a class="alert-link">{{ memo.count|intcomma }}</a>개 </span></span>
+          </div>
+              {% endif %}
+          <form class="form-inline my-2 my-lg-0" action="" method="get">
+            <input class="form-control mr-sm-2" type="search" placeholder="multisearch" aria-label="multisearch" name="p">
+            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">multisearch</button>
+        </form>
+        </div>
+      </div>          
+        <br>
+          {% endif %}
+      </div>
+        {% endif %}
+
+        {% if tag2 %}
+        <div class="search-header">
+          {% if not memo %}
+          <a class="alert-link">#{{tag2}}</a>태그 검색 결과가 없습니다.
+            <div class="hot-tag-list">
+          {% else %}
+
+          <div class="alert alert-dark" role="alert">
+              <a class="alert-link">#{{tag2}}</a> 검색 결과입니다.
+            </div>
+
+          <span class="search-result-count">게시물 <span class="count">{{ memo.count|intcomma }}개 </span></span>
+          <form class="form-inline my-2 my-lg-0" action="" method="get">
+            <input class="form-control mr-sm-2" type="search" placeholder="multisearch" aria-label="multisearch" name="y"
+                >
+            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">multisearch</button>
+        </form>
+          {% endif %}
+        </div>
+        {% endif %}
 
             <div class="container">
               <div class="row">
@@ -65,13 +117,23 @@
                     {% endif %}
 
                     <div class="card-body">
-                    <p class="card-text"> {{memo.text2}} {{ memo|add_link|safe|linebreaksbr }} {{ memo|add_link2|safe|linebreaksbr }} ({{memo.comments.count}})
+                    <p class="card-text"> {{memo.text2}} <br>{{ memo|add_link|safe|linebreaksbr }} <br>{{ memo|add_link2|safe|linebreaksbr }} </p>
+                      
                     <div class="d-flex justify-content-between align-items-center">
+                    
                     <div class="btn-group">
                     <small class="text-dark"><p class="card-text">{{memo.update_date | naturaltime}}</p></small>
                     </div>
+                    <div class="btn-group">
+                        <div class="d-flex flex-column bd-highlight mb-3">
+
                     <small class="text-muted"><span class="like_count" id="count{{ memo.id }}">{{ memo.total_likes }} like</span></small>
+                    <small class="text-muted">{{memo.comments.count}} comment</small>
+                        </div>
+                  </div>
+
                     </div>
+                    
                     </div>
                   </div>
                 </div>
