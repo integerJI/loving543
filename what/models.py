@@ -46,7 +46,7 @@ class Memos(models.Model):
         self.save()
 
     def __str__(self):
-        return self.text
+        return self.text2
         
     @property
     def total_likes(self):
