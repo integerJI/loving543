@@ -14,7 +14,6 @@ class Memos(models.Model):
     secret = models.BooleanField(db_column='나만보기', null=True, blank=True)
     tag_set = models.ManyToManyField('Tag', blank=True)
     text2 = models.TextField(max_length = 150, null=True)
-
     tag_set2 = models.ManyToManyField('Tag2', blank=True)
     text3 = models.TextField(max_length = 150, null=True)
 

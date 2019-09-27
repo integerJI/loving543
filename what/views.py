@@ -87,6 +87,8 @@ def modify(request, memokey):
 
         if form.is_valid():
             memo = form.save(commit=False)
+            memo.tag_save()
+            memo.tag_save2()
             memo.save()
 
             context = {'memo': memo,}

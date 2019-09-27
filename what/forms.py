@@ -6,7 +6,7 @@ from .models import Memos
 class PostForm(forms.ModelForm):
     class Meta:
         model = Memos
-        fields = ['text','images', 'secret', 'text2', 'text3' ]
+        fields = ['text2','images', 'secret', 'text', 'text3' ]
 
         widgets = {
             'text': forms.TextInput(attrs={'class': 'form-control'}),

@@ -69,19 +69,26 @@
           <a class="alert-link">#{{tag2}}</a>태그 검색 결과가 없습니다.
             <div class="hot-tag-list">
           {% else %}
-
           <div class="alert alert-dark" role="alert">
-              <a class="alert-link">#{{tag2}}</a> 검색 결과입니다.
+              <div class="d-flex justify-content-between">
+                {% if p %}
+                <div class"group>
+              <a class="alert-link">#{{tag2}} #{{p}}</a> 검색 결과입니다.<span class="search-result-count"> 게시물 <span class="count"><a class="alert-link">{{ memo.count|intcomma }}</a>개 </span></span>
             </div>
-
-          <span class="search-result-count">게시물 <span class="count">{{ memo.count|intcomma }}개 </span></span>
+              {% else%}
+              <div class"group>
+            <a class="alert-link">#{{tag2}}</a> 검색 결과입니다.<span class="search-result-count"> 게시물 <span class="count"><a class="alert-link">{{ memo.count|intcomma }}</a>개 </span></span>
+          </div>
+              {% endif %}
           <form class="form-inline my-2 my-lg-0" action="" method="get">
-            <input class="form-control mr-sm-2" type="search" placeholder="multisearch" aria-label="multisearch" name="y"
-                >
+            <input class="form-control mr-sm-2" type="search" placeholder="multisearch" aria-label="multisearch" name="p">
             <button class="btn btn-outline-success my-2 my-sm-0" type="submit">multisearch</button>
         </form>
-          {% endif %}
         </div>
+      </div>          
+        <br>
+          {% endif %}
+      </div>
         {% endif %}
 
             <div class="container">
