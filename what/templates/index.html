@@ -29,12 +29,11 @@
             </select>
           </div>
 
-            <p>인기 해시태그</p>
+            <!--<p>인기 해시태그</p>
           {% for tag in tag_all|slice:":5" %}
-          <button type="button" class="btn btn-outline-primary">
-        <a href="/what/explore/tags/{{tag.tag_name}}">#{{ tag.tag_name }}</a></button>
+        <a href="/what/explore/tags/{{tag.tag_name}}">#{{ tag.tag_name }}</a><a> {{ tag.num_post }}개</a>
         {% endfor %}<br><br>
-
+-->
         {% if tag %}
         <div class="search-header">
           {% if not memo %}
