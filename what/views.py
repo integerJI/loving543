@@ -57,9 +57,6 @@ def index(request, tag=None, tag2=None):
 
 
 
-
-        
-
 def post(request):
     if request.method == "POST":
         form = PostForm(request.POST, request.FILES)

@@ -15,23 +15,11 @@ import os
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-DEFAULT_FILE_STORAGE = 'why.storages.MediaStorage'
-STATICFILES_STORAGE = 'why.storages.StaticStorage'
-
-MEDIAFILES_LOCATION = 'media'
-STATICFILES_LOCATION = 'static'
-
 # AWS Access
 from boto.s3.connection import S3Connection
 
 # s3 = S3Connection(os.environ['S3_KEY'], os.environ['S3_SECRET'])
 
-
-AWS_STORAGE_BUCKET_NAME = 'jeongsu997'
-
-AWS_S3_REGION_NAME = "ap-northeast-2"
-
-AWS_S3_SIGNATURE_VERSION = "s3v4"
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/2.2/howto/deployment/checklist/
