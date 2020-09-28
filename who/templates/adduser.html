@@ -34,8 +34,13 @@
                       <input type="password" class="form-control" id="exampleInputPassword1" placeholder="비밀번호 확인" name="user-password2" required id="id_user-password2">
                     </div>
                 <div class="form-group">
-                    <label for="exampleFormControlFile1">프로필 사진 <small class="text-muted">권장 크기 : 250 * 250</small></label>
-                    <input type="file" class="form-control-file" id="id_profile-profile_image" name="profile-profile_image" accept="image/*" >
+                    <label for="exampleFormControlFile1">프로필 사진 <small class="text-muted">권장 크기 : 150 * 150</small></label>
+                    <br>
+                    <div class="d-flex justify-content-center">
+                      <img src="{% static 'profile.png' %}" class="form-control-file" id="id_profile-profile_image" name="profile-profile_image" alt="secret" style="width: 150px; height: 150px;">
+                    </div>
+                    <br>
+                    <small class="text-muted">현재 img 서버 점검으로 인하여 기본 이미지 선택만 가능 합니다.</small>
                   </div>
                 <div class="form-group">
                     <label for="exampleFormControlTextarea1">인사말</label>
