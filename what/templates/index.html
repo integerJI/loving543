@@ -150,14 +150,16 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
     <script type="text/javascript">
 
-        $("#user_name").text() 
+        $("#user_name").text()
+        $(".writer_name").text()
+
         $(".writer_name")
-        $(".writer_name")[0].innerHTML 
+        $(".writer_name")[0].innerHTML
 
         for (i = 0; i < $(".writer_name").length; i++) {
-            if ($("#user_name").text() == $(".writer_name")[i].innerHTML) {
-                $("#control_id" + i).removeClass("hidden");
-            }
+          if ($("#user_name").text() == $(".writer_name")[i].innerHTML) {
+            $("#control_id" + i).removeClass("hidden");
+          }
         }
 
         var getUrlParameter = function getUrlParameter(sParam) {
