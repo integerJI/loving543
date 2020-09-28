@@ -23,6 +23,7 @@ def signup(request):
                 profile.user = user
                 profile.nick = user
                 profile.save()
+                auth.login(request, user)
                 return redirect('index')
             else:
                 user = request.POST['user-username']
