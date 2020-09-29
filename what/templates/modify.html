@@ -16,9 +16,9 @@
 
               {{form.as_p}}
               
-              <input type="submit" class="save btn btn-success" value="저장">
+              <input type="submit" class="save btn btn-outline-dark" value="저장">
               <a href="{% url 'index' %}">
-                <button type="button" class="btn btn-danger">취소</button>
+                <button type="button" class="btn btn-outline-dark">취소</button>
               </a>
             </form>
 
@@ -26,6 +26,9 @@
     </div>
   </div>
 </div>
- 
+<script>
+  document.getElementById("id_images").style.visibility = 'hidden';
+  $("label[for='id_images']").text('현재 img 서버 점검으로 인하여 기본 이미지 선택만 가능 합니다.');
+</script>
 
 {% endblock %}

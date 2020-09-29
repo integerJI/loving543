@@ -119,7 +119,7 @@
                     {% if memo.images %}
                     <a href="{% url 'detail' memo.id %}"><img class="bd-placeholder-img card-img-top" width="100%" height="225" src="{{ memo.images.url }}" preserveAspectRatio="xMidYMid slice" focusable="false" role="img" aria-label="Placeholder: Thumbnail"></a>
                     {% else %}
-                    <a href="{% url 'detail' memo.id %}"><img class="bd-placeholder-img card-img-top" width="100%" height="225" src="/static/default.jpg" preserveAspectRatio="xMidYMid slice" focusable="false" role="img" aria-label="Placeholder: Thumbnail"></a>
+                    <a href="{% url 'detail' memo.id %}"><img class="bd-placeholder-img card-img-top" width="100%" height="225" src="/static/no_image.png" preserveAspectRatio="xMidYMid slice" focusable="false" role="img" aria-label="Placeholder: Thumbnail"></a>
                     {% endif %}
 
                     <div class="card-body">

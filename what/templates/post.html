@@ -31,18 +31,24 @@
                   <textarea class="form-control" rows="3" name="text3" cols="40" rows="10" maxlength="150" required id="id_text" placeholder="#지역태그를 적어주시기 바랍니다.."></textarea>
                   <h6 class="pull-right" id="count_message"></h6>
                 </div>
-            
-                  <div class="form-group">
-                    <label for="id_images">사진</label>
-                    <input type="file" class="form-control-file" id="id_images" name="images" accept="image/*" >
+
+                <div class="form-group">
+                  <label for="exampleFormControlFile1">사진 <small class="text-muted">권장 크기 : 150 * 150</small></label>
+                  <br>
+                  <br>
+                  <div class="d-flex justify-content-center">
+                    <img src="{% static 'no_image_post.png' %}" class="form-control-file" id="id_profile-profile_image" name="profile-profile_image" alt="secret" style="width: 150px; height: 150px;">
                   </div>
-                  
+                  <br>
+                  <small class="text-muted"><a style="color:red;">현재 img 서버 점검으로 인하여 기본 이미지 선택만 가능 합니다.</a></small>
+                </div>
+
                   <label for="id_secret">나만보기</label>&nbsp;&nbsp;
                   <input type="checkbox" name="secret" class="form-group" id="id_secret"><br>
 
-                  <button type="submit" class="save btn btn-success">저장</button>
+                  <button type="submit" class="save btn btn-outline-dark">저장</button>
                   <a href="{% url 'index' %}">
-                    <button type="button" class="btn btn-danger">취소</button>
+                    <button type="button" class="btn btn-outline-dark">취소</button>
                   </a>
               </form>
   
